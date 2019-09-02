@@ -14,6 +14,67 @@
   </head>
 
   <body>
+    <div class="modal sign-in-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">📂 Open Last Session</p>
+          <button class="delete cancel-sign-in" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Text input">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" placeholder="Text input">
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success">Open</button>
+          <button class="button cancel-sign-in">Cancel</button>
+        </footer>
+      </div>
+    </div>
+
+    <div class="modal sign-up-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">💾 Save your progress</p>
+          <button class="delete cancel-sign-up" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          Register an account in order to save your file (saving multiple files will be possible soon™️)
+
+          <div class="field">
+            </br>
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Text input">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" placeholder="Text input">
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success">Save changes</button>
+          <button class="button cancel-sign-up">Cancel</button>
+        </footer>
+      </div>
+    </div>
+
     <nav class="navbar is-transparent">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
@@ -45,6 +106,32 @@
         </div>
 
         <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button is-primary" id='sign_up' href='#'>
+                  <span class="icon">
+                    💾
+                  </span>
+                  <span>
+                    Save
+                  </span>
+                </a>
+              </p>
+
+              <p class="control">
+                <a class="button is-primary" id='sign_in' href='#'>
+                  <span class="icon">
+                    📂
+                  </span>
+                  <span>
+                    Open
+                  </span>
+                </a>
+              </p>
+            </div>
+          </div>
+
           <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control">

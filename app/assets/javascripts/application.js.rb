@@ -39,6 +39,32 @@ end
 RUBY
 
 class TryNegasonic
+  class UserActions
+    def initialize
+      Element.find('#sign_up').on(:click) do
+        show_modal('.sign-up-modal')
+      end
+      Element.find('.cancel-sign-up').on(:click) do
+        hide_modal('.sign-up-modal')
+      end
+
+      Element.find('#sign_in').on(:click) do
+        show_modal('.sign-in-modal')
+      end
+      Element.find('.cancel-sign-in').on(:click) do
+        hide_modal('.sign-in-modal')
+      end
+    end
+
+    def show_modal(klass)
+      Element.find(klass).add_class 'is-active'
+    end
+
+    def hide_modal(klass)
+      Element.find(klass).remove_class 'is-active'
+    end
+  end
+
   class Editor
     def initialize(dom_id, options)
       @native = `CodeMirror(document.getElementById(dom_id), #{options.to_n})`
@@ -66,6 +92,8 @@ class TryNegasonic
     }
 
     @link = Element.find('#link_code')
+    @user_actions = UserActions.new
+
     Element.find('#run_code').on(:click) { run_code }
     Element.find('#stop').on(:click) { Negasonic::Time.stop }
 
