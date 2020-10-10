@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <div class="modal sign-in-modal">
+    <div class="modal" id='sign_in_modal'>
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -25,14 +25,14 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Text input">
+              <input class="input email" type="text" placeholder="Text input">
             </div>
           </div>
 
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
-              <input class="input" type="password" placeholder="Text input">
+              <input class="input password" type="password" placeholder="Text input">
             </div>
           </div>
         </section>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="modal sign-up-modal">
+    <div class="modal" id="sign_up_modal">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -57,14 +57,21 @@
             </br>
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Text input">
+              <input class="input email" type="text" placeholder="Text input">
             </div>
           </div>
 
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
-              <input class="input" type="password" placeholder="Text input">
+              <input class="input password" type="password" placeholder="Text input">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password Confirmation</label>
+            <div class="control">
+              <input class="input password-confirmation" type="password" placeholder="Text input">
             </div>
           </div>
         </section>
