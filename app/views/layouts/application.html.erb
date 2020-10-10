@@ -51,7 +51,20 @@
           <button class="delete cancel-sign-up" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-          Register an account in order to save your file (saving multiple files will be possible soon™️)
+          Register an account or sign in order to save your file (saving multiple files will be possible soon™️)
+
+          </br>
+          </br>
+          <div class="control" id="registered">
+            <label class="radio">
+              <input type="radio" name="registered" value="registered">
+              I already have an account
+            </label>
+            <label class="radio">
+              <input type="radio" name="registered" value="notregistered" checked>
+              Im a new user
+            </label>
+          </div>
 
           <div class="field">
             </br>
@@ -61,14 +74,14 @@
             </div>
           </div>
 
-          <div class="field">
+          <div class="field" id="password-field">
             <label class="label">Password</label>
             <div class="control">
               <input class="input password" type="password" placeholder="Text input">
             </div>
           </div>
 
-          <div class="field">
+          <div class="field" id="password-confirmation-field">
             <label class="label">Password Confirmation</label>
             <div class="control">
               <input class="input password-confirmation" type="password" placeholder="Text input">

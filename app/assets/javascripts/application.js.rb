@@ -59,6 +59,14 @@ class TryNegasonic
       Element.find('.cancel-sign-in').on(:click) do
         hide_modal('#sign_in_modal')
       end
+
+      Element.find('input[type=radio][name=registered]').on :change do |event|
+        if event.element.value == 'registered'
+          hide_element('#password-confirmation-field')
+        elsif event.element.value == 'notregistered'
+          show_element('#password-confirmation-field')
+        end
+      end
     end
 
     def sign_in
@@ -85,12 +93,20 @@ class TryNegasonic
       end
     end
 
-    def show_modal(klass)
-      Element.find(klass).add_class 'is-active'
+    def show_modal(class_or_id)
+      Element.find(class_or_id).add_class 'is-active'
     end
 
-    def hide_modal(klass)
-      Element.find(klass).remove_class 'is-active'
+    def hide_modal(class_or_id)
+      Element.find(class_or_id).remove_class 'is-active'
+    end
+
+    def show_element(class_or_id)
+      Element.find(class_or_id).remove_class 'is-hidden'
+    end
+
+    def hide_element(class_or_id)
+      Element.find(class_or_id).add_class 'is-hidden'
     end
   end
 
