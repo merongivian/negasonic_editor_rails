@@ -35,11 +35,14 @@ gem 'jbuilder', '~> 2.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'rb-readline'
 
 gem 'opal-rails'
 gem 'opal-jquery', github: 'opal/opal-jquery'
 gem 'tone.rb', github: 'merongivian/tone.rb'
 gem 'negasonic', github: 'merongivian/negasonic'
+
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

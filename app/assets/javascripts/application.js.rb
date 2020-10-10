@@ -43,21 +43,24 @@ class TryNegasonic
 		HEADERS = {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}
 
     def initialize
-      Element.find('#sign_up').on(:click) do
-        show_modal('#sign_up_modal')
+      Element.find('#save').on(:click) do
+        show_modal('#save_modal')
       end
-      Element.find('.cancel-sign-up').on(:click) do
-        hide_modal('#sign_up_modal')
+      Element.find('.cancel-save').on(:click) do
+        hide_modal('#save_modal')
       end
-      Element.find('#sign_up_modal .is-success').on(:click) do
+      Element.find('#save_modal .is-success').on(:click) do
         sign_up
       end
 
-      Element.find('#sign_in').on(:click) do
-        show_modal('#sign_in_modal')
+      Element.find('#open').on(:click) do
+        show_modal('#open_modal')
       end
-      Element.find('.cancel-sign-in').on(:click) do
-        hide_modal('#sign_in_modal')
+      Element.find('.cancel-open').on(:click) do
+        hide_modal('#open_modal')
+      end
+      Element.find('#open_modal .is-success').on(:click) do
+        sign_in
       end
 
       Element.find('input[type=radio][name=registered]').on :change do |event|
@@ -70,19 +73,22 @@ class TryNegasonic
     end
 
     def sign_in
-      #HTTP.post("/users/sign_in?user=") do |response|
-        #if response.ok?
-          #alert "successful!"
-        #else
-          #alert "request failed :("
-        #end
-      #end
+      email = Element.find('#open_modal .email').value
+      password = Element.find('#open_modal .password').value
+
+      HTTP.post("/users/sign_in", payload: {user: {email: email, password: password, remember_me: 1}}, headers: HEADERS) do |response|
+        if response.ok?
+          alert "logged in successfull!"
+        else
+          alert "#{response.json}"
+        end
+      end
     end
 
     def sign_up
-      email = Element.find('#sign_up_modal .email').value
-      password = Element.find('#sign_up_modal .password').value
-      password_confirmation = Element.find('#sign_up_modal .password-confirmation').value
+      email = Element.find('#save_modal .email').value
+      password = Element.find('#save_modal .password').value
+      password_confirmation = Element.find('#save_modal .password-confirmation').value
 
       HTTP.post("/users", payload: {user: {email: email, password: password, password_confirmation: password_confirmation}}, headers: HEADERS) do |response|
         if response.ok?

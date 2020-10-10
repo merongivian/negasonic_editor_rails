@@ -14,12 +14,12 @@
   </head>
 
   <body>
-    <div class="modal" id='sign_in_modal'>
+    <div class="modal" id='open_modal'>
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">📂 Open Last Session</p>
-          <button class="delete cancel-sign-in" aria-label="close"></button>
+          <button class="delete cancel-open" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           <div class="field">
@@ -38,17 +38,17 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Open</button>
-          <button class="button cancel-sign-in">Cancel</button>
+          <button class="button cancel-open">Cancel</button>
         </footer>
       </div>
     </div>
 
-    <div class="modal" id="sign_up_modal">
+    <div class="modal" id="save_modal">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">💾 Save your progress</p>
-          <button class="delete cancel-sign-up" aria-label="close"></button>
+          <button class="delete cancel-save" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           Register an account or sign in order to save your file (saving multiple files will be possible soon™️)
@@ -90,7 +90,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Save changes</button>
-          <button class="button cancel-sign-up">Cancel</button>
+          <button class="button cancel-save">Cancel</button>
         </footer>
       </div>
     </div>
@@ -129,7 +129,7 @@
           <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control">
-                <a class="button is-primary" id='sign_up' href='#'>
+                <a class="button is-primary" id='save' href='#'>
                   <span class="icon">
                     💾
                   </span>
@@ -140,7 +140,7 @@
               </p>
 
               <p class="control">
-                <a class="button is-primary" id='sign_in' href='#'>
+                <a class="button is-primary" id='open' href='#'>
                   <span class="icon">
                     📂
                   </span>
