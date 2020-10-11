@@ -13,6 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       if resource.persisted?
+        resource.create_or_update_track_file!(code_text: params[:file_text])
         render(json: {}, status: 200) && return
       else
         render(json: resource.errors.full_messages, status: :unprocessable_entity) && return
@@ -48,7 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :file_text])
   end
 
   # If you have extra params to permit, append them to the sanitizer.

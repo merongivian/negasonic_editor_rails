@@ -16,6 +16,7 @@ class Users::SessionsController < Devise::SessionsController
 
     if resource
       sign_in(resource_name, resource)
+      current_user.create_or_update_track_file!(code_text: params[:file_text])
       render(json: {}, status: 200)
     else
       render(json: 'wrong email or password'.to_json, status: :unauthorized)

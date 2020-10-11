@@ -42,7 +42,10 @@ class TryNegasonic
   class UserActions
 		HEADERS = {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}
 
-    def initialize
+    def initialize(editor: )
+      @editor = editor
+      @user_registered = false
+
       Element.find('#save').on(:click) do
         show_modal('#save_modal')
       end
@@ -50,7 +53,11 @@ class TryNegasonic
         hide_modal('#save_modal')
       end
       Element.find('#save_modal .is-success').on(:click) do
-        sign_up
+        if @user_registered
+          sign_in(save_file: true)
+        else
+          sign_up(save_file: true)
+        end
       end
 
       Element.find('#open').on(:click) do
@@ -66,17 +73,22 @@ class TryNegasonic
       Element.find('input[type=radio][name=registered]').on :change do |event|
         if event.element.value == 'registered'
           hide_element('#password-confirmation-field')
+          @user_registered = true
         elsif event.element.value == 'notregistered'
           show_element('#password-confirmation-field')
+          @user_registered = false
         end
       end
     end
 
-    def sign_in
+    def sign_in(save_file: false)
       email = Element.find('#open_modal .email').value
       password = Element.find('#open_modal .password').value
 
-      HTTP.post("/users/sign_in", payload: {user: {email: email, password: password, remember_me: 1}}, headers: HEADERS) do |response|
+      payload = {user: {email: email, password: password, remember_me: 1}}
+      payload.merge!(file_text: @editor.value) if save_file
+
+      HTTP.post("/users/sign_in", payload: payload, headers: HEADERS) do |response|
         if response.ok?
           alert "logged in successfull!"
         else
@@ -85,12 +97,15 @@ class TryNegasonic
       end
     end
 
-    def sign_up
+    def sign_up(save_file: false)
       email = Element.find('#save_modal .email').value
       password = Element.find('#save_modal .password').value
       password_confirmation = Element.find('#save_modal .password-confirmation').value
 
-      HTTP.post("/users", payload: {user: {email: email, password: password, password_confirmation: password_confirmation}}, headers: HEADERS) do |response|
+      payload = {user: {email: email, password: password, remember_me: 1}}
+      payload.merge!(file_text: @editor.value) if save_file
+
+      HTTP.post("/users", payload: payload, headers: HEADERS) do |response|
         if response.ok?
           alert "User created!"
         else
@@ -143,7 +158,7 @@ class TryNegasonic
     }
 
     @link = Element.find('#link_code')
-    @user_actions = UserActions.new
+    @user_actions = UserActions.new(editor: @editor)
 
     Element.find('#run_code').on(:click) { run_code }
     Element.find('#stop').on(:click) { Negasonic::Time.stop }
