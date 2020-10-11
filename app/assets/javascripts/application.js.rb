@@ -52,9 +52,18 @@ class TryNegasonic
       end
       Element.find('#save_modal .is-success').on(:click) do
         if @user_registered
-          sign_in(save_file: true)
+          sign_in(
+            email: Element.find('#save_modal .email').value,
+            password: Element.find('#save_modal .password').value,
+            save_file: true
+          )
         else
-          sign_up(save_file: true)
+          sign_up(
+            email: Element.find('#save_modal .email').value,
+            password: Element.find('#save_modal .password').value,
+            password_confirmation: Element.find('#save_modal .password-confirmation').value,
+            save_file: true
+          )
         end
       end
 
@@ -65,7 +74,10 @@ class TryNegasonic
         hide_modal('#open_modal')
       end
       Element.find('#open_modal .is-success').on(:click) do
-        sign_in
+        sign_in(
+          email: Element.find('#open_modal .email').value,
+          password: Element.find('#open_modal .password').value
+        )
       end
       Element.find('#sign_out').on(:click) do
         sign_out
@@ -82,16 +94,15 @@ class TryNegasonic
       end
     end
 
-    def sign_in(save_file: false)
-      email = Element.find('#open_modal .email').value
-      password = Element.find('#open_modal .password').value
-
+    def sign_in(email: , password:, save_file: false)
       payload = {user: {email: email, password: password, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users/sign_in", payload: payload, headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}) do |response|
+      HTTP.post("/users/sign_in", payload: payload, headers: `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`) do |response|
         if response.ok?
-          @editor.value = response.json["file_text"]
+          unless save_file
+            @editor.value = response.json["file_text"]
+          end
           alert "logged in successfull!"
         else
           alert "#{response.json}"
@@ -99,15 +110,11 @@ class TryNegasonic
       end
     end
 
-    def sign_up(save_file: false)
-      email = Element.find('#save_modal .email').value
-      password = Element.find('#save_modal .password').value
-      password_confirmation = Element.find('#save_modal .password-confirmation').value
-
-      payload = {user: {email: email, password: password, remember_me: 1}}
+    def sign_up(email: , password:, password_confirmation: ,save_file: false)
+      payload = {user: {email: email, password: password, password_confirmation: password_confirmation, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users", payload: payload, headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}) do |response|
+      HTTP.post("/users", payload: payload, headers:  `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`) do |response|
         if response.ok?
           alert "User created!"
         else
@@ -117,7 +124,7 @@ class TryNegasonic
     end
 
     def sign_out
-      HTTP.delete("/users/sign_out", headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']})
+      HTTP.delete("/users/sign_out", headers: `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`)
     end
 
     def show_modal(class_or_id)
