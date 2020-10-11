@@ -149,6 +149,16 @@
                   </span>
                 </a>
               </p>
+
+              <% if Rails.env.development? %>
+                <p class="control">
+                  <a class="button is-primary" id='sign_out' href='#'>
+                    <span>
+                      Sign out
+                    </span>
+                  </a>
+                </p>
+              <% end %>
             </div>
           </div>
 

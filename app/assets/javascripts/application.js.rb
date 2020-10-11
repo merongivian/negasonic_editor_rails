@@ -40,8 +40,6 @@ RUBY
 
 class TryNegasonic
   class UserActions
-		HEADERS = {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}
-
     def initialize(editor: )
       @editor = editor
       @user_registered = false
@@ -69,6 +67,9 @@ class TryNegasonic
       Element.find('#open_modal .is-success').on(:click) do
         sign_in
       end
+      Element.find('#sign_out').on(:click) do
+        sign_out
+      end
 
       Element.find('input[type=radio][name=registered]').on :change do |event|
         if event.element.value == 'registered'
@@ -88,7 +89,7 @@ class TryNegasonic
       payload = {user: {email: email, password: password, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users/sign_in", payload: payload, headers: HEADERS) do |response|
+      HTTP.post("/users/sign_in", payload: payload, headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}) do |response|
         if response.ok?
           @editor.value = response.json["file_text"]
           alert "logged in successfull!"
@@ -106,7 +107,7 @@ class TryNegasonic
       payload = {user: {email: email, password: password, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users", payload: payload, headers: HEADERS) do |response|
+      HTTP.post("/users", payload: payload, headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']}) do |response|
         if response.ok?
           alert "User created!"
         else
@@ -116,7 +117,7 @@ class TryNegasonic
     end
 
     def sign_out
-      HTTP.delete("/users/sign_out", headers: HEADERS)
+      HTTP.delete("/users/sign_out", headers: {'X-CSRF-Token' => Element.find('meta[name="csrf-token"]')['content']})
     end
 
     def show_modal(class_or_id)
