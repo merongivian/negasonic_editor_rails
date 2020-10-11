@@ -90,6 +90,7 @@ class TryNegasonic
 
       HTTP.post("/users/sign_in", payload: payload, headers: HEADERS) do |response|
         if response.ok?
+          @editor.value = response.json["file_text"]
           alert "logged in successfull!"
         else
           alert "#{response.json}"
@@ -112,6 +113,10 @@ class TryNegasonic
           alert "Errors: #{response.json}"
         end
       end
+    end
+
+    def sign_out
+      HTTP.delete("/users/sign_out", headers: HEADERS)
     end
 
     def show_modal(class_or_id)
