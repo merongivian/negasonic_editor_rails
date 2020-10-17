@@ -153,6 +153,12 @@ class TryNegasonic
           end
           hide_open_button
           show_sign_out_button
+          if save_file
+            hide_modal('#save_modal')
+          else
+            hide_modal('#open_modal')
+          end
+
           alert "logged in successfull!"
         else
           alert "#{response.json}"
@@ -168,6 +174,12 @@ class TryNegasonic
         if response.ok?
           hide_open_button
           show_sign_out_button
+          if save_file
+            hide_modal('#save_modal')
+          else
+            hide_modal('#open_modal')
+          end
+
           alert "User created!"
         else
           alert "Errors: #{response.json}"

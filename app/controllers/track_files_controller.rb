@@ -8,7 +8,7 @@ class TrackFilesController < ApplicationController
   end
 
   def show_current
-    current_track_text = current_user&.track_files.first&.code_text
+    current_track_text = current_user&.track_files&.first&.code_text
 
     if current_track_text
       render(json: { file_text: current_track_text }.to_json, status: 200)
