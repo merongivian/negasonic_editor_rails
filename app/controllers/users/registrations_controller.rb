@@ -11,14 +11,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super do |resource|
-      if resource.persisted?
-        resource.create_or_update_track_file!(code_text: params[:file_text])
-        cookies[:user_signed_in] = 1
-        render(json: {}, status: 200) && return
-      else
-        render(json: resource.errors.full_messages, status: :unprocessable_entity) && return
-      end
+    build_resource(sign_up_params)
+
+    resource.save
+
+    if resource.persisted? && resource.create_or_update_track_file!(code_text: params[:file_text])
+      sign_in(resource_name, resource)
+      cookies[:user_signed_in] = 1
+      render(json: {}, status: 200) && return
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      render(json: resource.errors.full_messages, status: :unprocessable_entity) && return
     end
   end
 
