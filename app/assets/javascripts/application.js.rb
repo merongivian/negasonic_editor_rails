@@ -119,7 +119,7 @@ class TryNegasonic
     end
 
     def load_saved_file_in_editor
-      HTTP.put("/track_files/show_current", payload: {}, headers: csrf_token_headers) do |response|
+      HTTP.get("/track_files/show_current", payload: {}, headers: csrf_token_headers) do |response|
         if response.ok?
           @editor.value = response.json["file_text"]
         else
