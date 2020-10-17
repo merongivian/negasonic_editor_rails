@@ -54,7 +54,11 @@ class TryNegasonic
       @user_registered = false
 
       Element.find('#save').on(:click) do
-        show_modal('#save_modal')
+        if signed_in?
+          save_file
+        else
+          show_modal('#save_modal')
+        end
       end
       Element.find('.cancel-save').on(:click) do
         hide_modal('#save_modal')
@@ -116,6 +120,16 @@ class TryNegasonic
 
     def csrf_token_headers
       {'X-CSRF-Token' => Element['meta[name=csrf-token]'].attr('content')}
+    end
+
+    def save_file
+      HTTP.put("/track_files/update_current", payload: { file_text: @editor.value }, headers: csrf_token_headers) do |response|
+        if response.ok?
+          alert "file saved successfully!"
+        else
+          alert "#{response.json}"
+        end
+      end
     end
 
     def load_saved_file_in_editor
