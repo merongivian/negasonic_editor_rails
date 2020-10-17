@@ -102,20 +102,30 @@ class TryNegasonic
         end
       end
 
-      if user_signed_in?
+      if signed_in?
         hide_open_button
       else
         hide_sign_out_button
       end
     end
 
-    def user_signed_in?
+    def signed_in?
       cookie = Bowser::Cookie['user_signed_in']
       cookie && cookie.value == '1'
     end
 
     def csrf_token_headers
       {'X-CSRF-Token' => Element['meta[name=csrf-token]'].attr('content')}
+    end
+
+    def load_saved_file_in_editor
+      HTTP.put("/track_files/show_current", payload: {}, headers: csrf_token_headers) do |response|
+        if response.ok?
+          @editor.value = response.json["file_text"]
+        else
+          alert "#{response.json}"
+        end
+      end
     end
 
     def sign_in(email: , password:, save_file: false)
@@ -227,7 +237,11 @@ class TryNegasonic
     if hash =~ /^[#?]code:/
       @editor.value = hash[6..-1]
 		else
-			@editor.value = DEFAULT_TRY_CODE.strip
+      if @user_actions.signed_in?
+        @user_actions.load_saved_file_in_editor
+      else
+        @editor.value = DEFAULT_TRY_CODE.strip
+      end
     end
   end
 
