@@ -7,6 +7,15 @@ require 'opal'
 require 'opal-parser'
 require 'opal-jquery'
 require 'negasonic'
+require 'bowser/cookie'
+
+# https://stackoverflow.com/questions/33941864/rails-automatically-update-csrf-token-for-repeat-json-request
+%x{
+  $( document ).ajaxComplete(function( event, xhr, settings ) {
+    header_token = xhr.getResponseHeader('X-CSRF-Token');
+    if (header_token) $('meta[name=csrf-token]').attr('content', header_token)
+  });
+}
 
 DEFAULT_TRY_CODE = <<-RUBY
 # playing notes in the default cycle
@@ -92,17 +101,34 @@ class TryNegasonic
           @user_registered = false
         end
       end
+
+      if user_signed_in?
+        hide_open_button
+      else
+        hide_sign_out_button
+      end
+    end
+
+    def user_signed_in?
+      cookie = Bowser::Cookie['user_signed_in']
+      cookie && cookie.value == '1'
+    end
+
+    def csrf_token_headers
+      {'X-CSRF-Token' => Element['meta[name=csrf-token]'].attr('content')}
     end
 
     def sign_in(email: , password:, save_file: false)
       payload = {user: {email: email, password: password, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users/sign_in", payload: payload, headers: `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`) do |response|
+      HTTP.post("/users/sign_in", payload: payload, headers: csrf_token_headers) do |response|
         if response.ok?
           unless save_file
             @editor.value = response.json["file_text"]
           end
+          hide_open_button
+          show_sign_out_button
           alert "logged in successfull!"
         else
           alert "#{response.json}"
@@ -114,8 +140,10 @@ class TryNegasonic
       payload = {user: {email: email, password: password, password_confirmation: password_confirmation, remember_me: 1}}
       payload.merge!(file_text: @editor.value) if save_file
 
-      HTTP.post("/users", payload: payload, headers:  `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`) do |response|
+      HTTP.post("/users", payload: payload, headers:  csrf_token_headers) do |response|
         if response.ok?
+          hide_open_button
+          show_sign_out_button
           alert "User created!"
         else
           alert "Errors: #{response.json}"
@@ -124,7 +152,9 @@ class TryNegasonic
     end
 
     def sign_out
-      HTTP.delete("/users/sign_out", headers: `{ 'X-CSRF-Token': $('meta[name="csrf-token"]').attr("content") }`)
+      HTTP.delete("/users/sign_out", headers: csrf_token_headers)
+      hide_sign_out_button
+      show_open_button
     end
 
     def show_modal(class_or_id)
@@ -141,6 +171,22 @@ class TryNegasonic
 
     def hide_element(class_or_id)
       Element.find(class_or_id).add_class 'is-hidden'
+    end
+
+    def hide_sign_out_button
+      Element.find('#sign_out').add_class 'is-hidden'
+    end
+
+    def show_sign_out_button
+      Element.find('#sign_out').remove_class 'is-hidden'
+    end
+
+    def hide_open_button
+      Element.find('#open').add_class 'is-hidden'
+    end
+
+    def show_open_button
+      Element.find('#open').remove_class 'is-hidden'
     end
   end
 

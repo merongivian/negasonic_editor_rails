@@ -41,6 +41,7 @@ gem 'opal-rails'
 gem 'opal-jquery', github: 'opal/opal-jquery'
 gem 'tone.rb', github: 'merongivian/tone.rb'
 gem 'negasonic', github: 'merongivian/negasonic'
+gem 'bowser'
 
 gem 'devise'
 

@@ -20,6 +20,7 @@ class Users::SessionsController < Devise::SessionsController
         resource.create_or_update_track_file!(code_text: params[:file_text])
       end
 
+      cookies[:user_signed_in] = 1
       render(json: { file_text: resource.track_files.first&.code_text }.to_json, status: 200) && return
     else
       render(json: 'wrong email or password'.to_json, status: :unauthorized) && return
@@ -28,6 +29,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
+    cookies.delete :user_signed_in
     super
   end
 

@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super do |resource|
       if resource.persisted?
         resource.create_or_update_track_file!(code_text: params[:file_text])
+        cookies[:user_signed_in] = 1
         render(json: {}, status: 200) && return
       else
         render(json: resource.errors.full_messages, status: :unprocessable_entity) && return
