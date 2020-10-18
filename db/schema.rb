@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2020_10_10_230104) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "track_files", force: :cascade do |t|
     t.string "code_text", default: ""
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_track_files_on_user_id"
   end
 
