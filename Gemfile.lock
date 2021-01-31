@@ -1,13 +1,13 @@
 GIT
   remote: https://github.com/merongivian/negasonic.git
-  revision: 53caca36235162e20f082e719d98f308cec8b80e
+  revision: b84eeecb90963958d6ab8db43f359ad7826f7dcf
   specs:
     negasonic (0.1.0)
       tone.rb
 
 GIT
   remote: https://github.com/merongivian/tone.rb.git
-  revision: 1d98e55847f5929d18cb6a56885585381435b9f2
+  revision: a5f0571a0269d1ce424ba5dcdbe2a43eae7799d3
   specs:
     tone.rb (0.1.0)
       opal (>= 0.10.2)
@@ -68,7 +68,7 @@ GEM
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
-    ast (2.4.1)
+    ast (2.4.2)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -139,7 +139,7 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
-    opal (1.0.3)
+    opal (1.0.5)
       ast (>= 2.3.0)
       parser (~> 2.6)
     opal-activesupport (0.3.3)
