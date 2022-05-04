@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/merongivian/negasonic.git
-  revision: b84eeecb90963958d6ab8db43f359ad7826f7dcf
+  revision: d15556e7ba384e15749565345e2e6a55b724f76e
   specs:
     negasonic (0.1.0)
       tone.rb
@@ -11,6 +11,13 @@ GIT
   specs:
     tone.rb (0.1.0)
       opal (>= 0.10.2)
+
+GIT
+  remote: https://github.com/mimemagicrb/mimemagic.git
+  revision: 01f92d86d15d85cfd0f20dabd025dcbd36a8a60f
+  ref: 01f92d86d15d85cfd0f20dabd025dcbd36a8a60f
+  specs:
+    mimemagic (0.3.5)
 
 GIT
   remote: https://github.com/opal/opal-jquery.git
@@ -131,7 +138,6 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
@@ -261,6 +267,7 @@ DEPENDENCIES
   devise
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
+  mimemagic!
   negasonic!
   opal-jquery!
   opal-rails
@@ -282,4 +289,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   2.0.2
+   2.3.12
