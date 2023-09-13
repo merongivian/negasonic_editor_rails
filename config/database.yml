@@ -16,3 +16,8 @@ development:
 test:
   <<: *default
   database: negasonic_test
+
+production:
+  <<: *default
+  database: negasonic_production
+  url: <%= ENV['DATABASE_URL'] %>
